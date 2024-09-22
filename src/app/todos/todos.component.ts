@@ -26,6 +26,13 @@ export class TodosComponent implements OnInit {
           this.todos = items;
         },
       });
+
+      client.models.Estate.observeQuery().subscribe({
+        next: ({ items, isSynced }) => {
+          console.log('estates', items);
+        },
+      });
+
     } catch (error) {
       console.error('error fetching todos', error);
     }
@@ -36,12 +43,23 @@ export class TodosComponent implements OnInit {
       client.models.Todo.create({
         content: window.prompt('Todo content'),
       });
+
+      client.models.Estate.create({
+        name: "estate one",
+        location: "location one",
+        price: 1000,
+        description: "description one",
+        image: "image one",
+        status: "status one",
+      });
+
+
       this.listTodos();
     } catch (error) {
       console.error('error creating todos', error);
     }
   }
-    
+
   deleteTodo(id: string) {
     client.models.Todo.delete({ id })
   }
